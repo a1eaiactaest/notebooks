@@ -2,7 +2,6 @@
 
 from typing import List, Union, Tuple
 
-
 def mean(arr: List[Union[int, float]]) -> Union[int, float]:
   return sum(arr)/len(arr)
 
@@ -39,17 +38,16 @@ def least_squares(X: List[Union[int,float]], Y: List[Union[int, float]]) -> Tupl
 
   return estimates, slope, y_intercept
 
-    
-
 def test_ls():
   a1 = [_ for _ in range(1,8)]
   a2 = [1.5, 3.8, 6.7, 9.0, 11.2, 13.6, 16]
   est, _, _ = least_squares(a1, a2)
   # 2.4142857142857133
   # -0.8285714285714231
-
-  print(est)
-
+  for e, a in zip(est, a2):
+    error = a - e
+    print(round(e), round(a))
+    print(error) 
 
 if __name__ == "__main__":
   test_ls()
