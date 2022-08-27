@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
-from typing import List, Union
+from typing import List, Union, Tuple
+
 
 def mean(arr: List[Union[int, float]]) -> Union[int, float]:
   return sum(arr)/len(arr)
 
-def least_squares(X: List[Union[int,float]], Y: List[Union[int, float]]):
+def least_squares(X: List[Union[int,float]], Y: List[Union[int, float]]) -> Tuple[list, float, float]:
   """Ordinary least squares method."""
 
   assert len(X) == len(Y)
@@ -26,13 +27,28 @@ def least_squares(X: List[Union[int,float]], Y: List[Union[int, float]]):
     X_squared_sigma += x**2
     
   slope = ((N * XY_sigma) - (X_sigma * Y_sigma)) / ((N * X_squared_sigma) - (X_sigma)**2)
-  return slope
+  y_intercept = (Y_sigma - slope * X_sigma) / N
+
+  slope_intercept = lambda x: (slope * x) + y_intercept
+
+  estimates = []
+  for x,y in zip(X,Y):
+    estimation_y = slope_intercept(x)
+    print(y, estimation_y)
+    estimates.append(estimation_y)
+
+  return estimates, slope, y_intercept
 
     
+
 def test_ls():
   a1 = [_ for _ in range(1,8)]
   a2 = [1.5, 3.8, 6.7, 9.0, 11.2, 13.6, 16]
-  print(least_squares(a1, a2))
+  est, _, _ = least_squares(a1, a2)
+  # 2.4142857142857133
+  # -0.8285714285714231
+
+  print(est)
 
 
 if __name__ == "__main__":
