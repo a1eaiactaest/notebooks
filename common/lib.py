@@ -33,7 +33,6 @@ def least_squares(X: List[Union[int,float]], Y: List[Union[int, float]]) -> Tupl
   estimates = []
   for x,y in zip(X,Y):
     estimation_y = slope_intercept(x)
-    print(y, estimation_y)
     estimates.append(estimation_y)
 
   return estimates, slope, y_intercept
