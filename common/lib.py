@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
+import numpy as np
 from typing import List, Union, Tuple
 
 def mean(arr: List[Union[int, float]]) -> Union[int, float]:
   return sum(arr)/len(arr)
 
 def least_squares(X: List[Union[int,float]], Y: List[Union[int, float]]) -> Tuple[list, float, float]:
-  """Ordinary least squares method."""
+  """linear regression using least squares method."""
 
   assert len(X) == len(Y)
 
@@ -27,6 +28,8 @@ def least_squares(X: List[Union[int,float]], Y: List[Union[int, float]]) -> Tupl
     
   slope = ((N * XY_sigma) - (X_sigma * Y_sigma)) / ((N * X_squared_sigma) - (X_sigma)**2)
   y_intercept = (Y_sigma - slope * X_sigma) / N
+
+  #coeff = 1 - (X_squared_sigma / (sum([y - Y_mean for y in Y])**2))
 
   slope_intercept = lambda x: (slope * x) + y_intercept
 
@@ -49,4 +52,11 @@ def test_ls():
     print(error) 
 
 if __name__ == "__main__":
-  test_ls()
+  #test_ls()
+  x = np.array([5, 15, 25, 35, 45, 55])
+  y = np.array([5, 20, 14, 32, 22, 38])
+  print(least_squares(x, range(len(x))))
+  z = np.polyfit(x,range(len(x)),1)
+  print(z)
+  poly1d_fn = np.poly1d(z)
+  print(poly1d_fn(x))
