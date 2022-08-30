@@ -53,3 +53,5 @@ def set_url(ticker: str, interval: str, start_date: Optional[str] = None) -> str
 if __name__ == "__main__":
   url = set_url('BTCUSD', 'm', '2021-10-28')
   print(url)
+  file_path = fetch(url)
+  print(file_path)
