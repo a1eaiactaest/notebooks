@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 import math
 import numpy as np
 import pandas as pd
@@ -48,4 +49,5 @@ def trendline_stdev(ticker: str):
 
 
 if __name__ == "__main__":
-  trendline_stdev('ETH.V')
+  ticker = sys.argv[1]
+  trendline_stdev(ticker)
