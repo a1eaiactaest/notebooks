@@ -33,7 +33,7 @@ def set_url(ticker: str, interval: str, start_date: Optional[str] = None) -> str
     :type ticker: string
     :param interval: Frequency of the data samples. (d, w, m, q, y)
     :type interval: string
-    :param start_date: First date of historical data.
+    :param start_date: First date of historical data. Format: %y-%m-%d
     :type start_date: string | None
     :return: URL to the data download, examples above.
     :rtype: string
@@ -46,9 +46,9 @@ def set_url(ticker: str, interval: str, start_date: Optional[str] = None) -> str
     url = f'https://stooq.com/q/d/l/?s={ticker}&i={interval}'
   else:
     start_date = ''.join(start_date.split('-'))
+    print(start_date)
     url = f'https://stooq.com/q/d/l/?s={ticker}&d1={start_date}&d2={end_date}&i={interval}'
   return url
-
 
 if __name__ == "__main__":
   url = set_url('BTCUSD', 'm', '2021-10-28')

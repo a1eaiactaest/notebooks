@@ -11,9 +11,21 @@ import matplotlib.pyplot as plt
 import fetch
 from lib import least_squares
 
-def trendline_stdev(ticker: str):
-  data_url = fetch.set_url(ticker, 'm')
+def trendline_stdev(ticker:str, start_date:str=None, interval:str='m')-> None:
+  """Fetch and plot data for a specific asset.
+
+    :param ticker: Ticker of the asset recognizable by stooq.com.
+    :type ticker: string
+    :param start_date: Start date of time series axis.
+    :type start_date: string 
+    :param interval: Frequency of the data samples. (d, w, m, q, y)
+    :type interval: string
+    :return: None
+  """
+
+  data_url = fetch.set_url(ticker, interval, start_date)
   file_path = fetch.fetch(data_url)
+  print(file_path)
 
   df = pd.read_csv(file_path)
 
@@ -47,7 +59,12 @@ def trendline_stdev(ticker: str):
 
   plt.show()
 
-
 if __name__ == "__main__":
   ticker = sys.argv[1]
-  trendline_stdev(ticker)
+  try: 
+    interval = sys.argv[2]
+    start_date = sys.argv[3] # 2020-01-01
+    trendline_stdev(ticker, start_date, interval)
+  except IndexError:
+    trendline_stdev(ticker)
+
