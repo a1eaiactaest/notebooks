@@ -1,7 +1,17 @@
 #!/usr/bin/env python3
 
+import math
+from re import I
 import numpy as np
 from typing import List, Union, Tuple
+
+def standard_deviation(sample: List[Union[int, float]]) -> float:
+  sample_mean = mean(sample)
+  acc = 0
+  for x in sample:
+    acc += (x-sample_mean)**2
+  return math.sqrt(acc/len(sample))
+  
 
 def mean(arr: List[Union[int, float]]) -> Union[int, float]:
   return sum(arr)/len(arr)
@@ -28,8 +38,6 @@ def least_squares(X: List[Union[int,float]], Y: List[Union[int, float]]) -> Tupl
     
   slope = ((N * XY_sigma) - (X_sigma * Y_sigma)) / ((N * X_squared_sigma) - (X_sigma)**2)
   y_intercept = (Y_sigma - slope * X_sigma) / N
-
-  #coeff = 1 - (X_squared_sigma / (sum([y - Y_mean for y in Y])**2))
 
   slope_intercept = lambda x: (slope * x) + y_intercept
 
@@ -60,3 +68,6 @@ if __name__ == "__main__":
   print(z)
   poly1d_fn = np.poly1d(z)
   print(poly1d_fn(x))
+
+  print(standard_deviation([6,2,3,1]))
+  print(standard_deviation([1,4,7,2,6]))

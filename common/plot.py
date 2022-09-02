@@ -9,7 +9,7 @@ from matplotlib import ticker as mplticker
 import matplotlib.pyplot as plt
 
 import fetch
-from lib import least_squares
+from lib import least_squares, standard_deviation
 
 def trendline_stdev(ticker:str, start_date:str=None, interval:str='m')-> None:
   """Fetch and plot data for a specific asset.
@@ -32,6 +32,12 @@ def trendline_stdev(ticker:str, start_date:str=None, interval:str='m')-> None:
   Y = np.log10(df['Close'])
   X = range(df.shape[0])
   est, slope, y_intercept = least_squares(X,Y)
+  print(slope, y_intercept)
+  print('mean: ', sum(est)/len(est))
+  print(standard_deviation(est))
+  print(np.std(est))
+
+  SD = np.std(est)
 
   DATES_INTERVAL = df.shape[0]//10
 
@@ -43,10 +49,10 @@ def trendline_stdev(ticker:str, start_date:str=None, interval:str='m')-> None:
 
   plt.plot(len_range, est, '--k', label='least squares method trend')
 
-  plt.plot(len_range, est + np.std(est)/2, "r", label="+ 2 STDEV")
-  plt.plot(len_range, est + np.std(est)/4, "r", label="+ 1 STDEV")
-  plt.plot(len_range, est - np.std(est)/4, "g", label="- 1 STDEV")
-  plt.plot(len_range, est - np.std(est)/2, "g", label="- 2 STDEV")
+  plt.plot(len_range, est + SD/4, "r", label="+ 2 STDEV")
+  plt.plot(len_range, est + SD/2, "r", label="+ 1 STDEV")
+  plt.plot(len_range, est - SD/2, "g", label="- 1 STDEV")
+  plt.plot(len_range, est - SD/4, "g", label="- 2 STDEV")
 
   legend = plt.legend(loc='upper left')
   ax.yaxis.set_major_formatter(mplticker.FuncFormatter(lambda y, _: '{:g}'.format(10**y)))
