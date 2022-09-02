@@ -1,2 +1,2 @@
 from .lib import least_squares
-import fetch
+from . import fetch
