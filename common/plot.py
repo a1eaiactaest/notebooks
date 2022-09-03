@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import fetch
 from lib import least_squares, standard_deviation
 
-def trendline_stdev(ticker:str, interval:str='m', years_of_data:Optional[int]=None) -> None:
+def trendline_stdev(ticker:str, interval:str='m', years_of_data:Optional[int]=10) -> None:
   """Fetch and plot data for a specific asset.
 
     :param ticker: Ticker of the asset recognizable by stooq.com.
@@ -70,6 +70,8 @@ if __name__ == "__main__":
   ticker = sys.argv[1]
   try: 
     interval = sys.argv[2]
+    if not sys.argv[3]:
+      raise IndexError
     years = int(sys.argv[3]) 
     trendline_stdev(ticker, interval, years)
   except IndexError:

@@ -21,7 +21,7 @@ def fetch(url: str) -> str:
   return fp    
 
 
-def set_url(ticker:str, interval:str, years_of_data:Optional[str]=None) -> str:
+def set_url(ticker:str, interval:str, years_of_data:Optional[int]=10) -> str:
   """Set url for stooq.com csv download.
     Example  URLs:
       Data for S&P 500 since 1789 monthly.
