@@ -6,6 +6,7 @@ import requests
 import hashlib
 from datetime import date
 from typing import Optional
+from dateutil.relativedelta import relativedelta
 
 def fetch(url: str) -> str:
   fp = os.path.join('/tmp', hashlib.md5(url.encode('utf-8')).hexdigest())
@@ -20,7 +21,7 @@ def fetch(url: str) -> str:
   return fp    
 
 
-def set_url(ticker: str, interval: str, start_date: Optional[str] = None) -> str:
+def set_url(ticker:str, interval:str, years_of_data:Optional[str]=None) -> str:
   """Set url for stooq.com csv download.
     Example  URLs:
       Data for S&P 500 since 1789 monthly.
@@ -40,18 +41,17 @@ def set_url(ticker: str, interval: str, start_date: Optional[str] = None) -> str
   """
 
   today = date.today()
+  begin_date = (today - relativedelta(years=years_of_data)).strftime('%Y%m%d')
   end_date = today.strftime('%Y%m%d')
-  if start_date is None:
+  if years_of_data is None:
     # all possible data 
     url = f'https://stooq.com/q/d/l/?s={ticker}&i={interval}'
   else:
-    start_date = ''.join(start_date.split('-'))
-    print(start_date)
-    url = f'https://stooq.com/q/d/l/?s={ticker}&d1={start_date}&d2={end_date}&i={interval}'
+    url = f'https://stooq.com/q/d/l/?s={ticker}&d1={begin_date}&d2={end_date}&i={interval}'
   return url
 
 if __name__ == "__main__":
-  url = set_url('BTCUSD', 'm', '2021-10-28')
+  url = set_url('^SPX', 'm', 50)
   print(url)
   file_path = fetch(url)
   print(file_path)

@@ -4,6 +4,7 @@ import sys
 import math
 import numpy as np
 import pandas as pd
+from typing import Optional
 from datetime import datetime
 from matplotlib import ticker as mplticker
 import matplotlib.pyplot as plt
@@ -11,19 +12,19 @@ import matplotlib.pyplot as plt
 import fetch
 from lib import least_squares, standard_deviation
 
-def trendline_stdev(ticker:str, start_date:str=None, interval:str='m')-> None:
+def trendline_stdev(ticker:str, interval:str='m', years_of_data:Optional[int]=None) -> None:
   """Fetch and plot data for a specific asset.
 
     :param ticker: Ticker of the asset recognizable by stooq.com.
     :type ticker: string
-    :param start_date: Start date of time series axis.
-    :type start_date: string 
+    :param years_of_data: Amount of years on X axis.
+    :type years_of_data: int | None
     :param interval: Frequency of the data samples. (d, w, m, q, y)
     :type interval: string
     :return: None
   """
 
-  data_url = fetch.set_url(ticker, interval, start_date)
+  data_url = fetch.set_url(ticker, interval, years_of_data)
   file_path = fetch.fetch(data_url)
   print(file_path)
 
@@ -69,8 +70,8 @@ if __name__ == "__main__":
   ticker = sys.argv[1]
   try: 
     interval = sys.argv[2]
-    start_date = sys.argv[3] # 2020-01-01
-    trendline_stdev(ticker, start_date, interval)
+    years = int(sys.argv[3]) 
+    trendline_stdev(ticker, interval, years)
   except IndexError:
     trendline_stdev(ticker)
 
