@@ -1,9 +1,9 @@
-# notebooks
+# Notebooks
 
-Notes and trial and error attemps during algorithm creation process.
+Notebooks contain stock and crypto data visualizations
 
-## Install Dependencies
+### Install Dependencies
 
 ```bash
-./install_lib.sh
+pip3 install -r requirements.txt
 ```

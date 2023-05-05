@@ -1,0 +1,5 @@
+git+https://github.com/quasiphi/qualib.git
+pandas
+requests
+numpy
+matplotlib
